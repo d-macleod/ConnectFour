@@ -1,17 +1,12 @@
+import java.io.IOException;
 
 public class Grid {
     Piece[][] board;
 
-    enum Piece {
-        RED,
-        YELLOW,
-        EMPTY
-    }
-
     public Grid () {
         board = new Piece[6][7];
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length; j++) {
+        for (int i = 0; i < getHeight(); i++) {
+            for (int j = 0; j < getWidth(); j++) {
                 board[i][j] = Piece.EMPTY;
             }
         }
@@ -30,7 +25,10 @@ public class Grid {
      * @return success or not
      */
     public boolean addPiece (int column, Piece piece) {
-        for (int i = board.length - 1; i >= 0; i--) {
+        if (column >= getWidth() || column < 0) {
+            throw new IndexOutOfBoundsException("Select a proper column index.");
+        }
+        for (int i = getHeight() - 1; i >= 0; i--) {
             if (board[i][column].equals(Piece.EMPTY)) {
                 board[i][column] = piece;
                 return true;
@@ -76,19 +74,21 @@ public class Grid {
 
     @Override
     public String toString() {
-        String grid = "";
-        for (int i = 0; i < board.length; i++) {
+        String grid = "  0 1 2 3 4 5 6  \n";
+        grid += "  _ _ _ _ _ _ _\n";
+        for (int i = 0; i < getHeight(); i++) {
+            grid += "| ";
             for (Piece piece : board[i]) {
-                if (piece == Piece.RED) {
-                    grid += "R ";
-                } else if (piece == Piece.YELLOW) {
-                    grid += "Y ";
-                } else {
-                    grid += "* ";
-                }
+                grid += Piece.rep(piece);
+                grid += " ";
             }
+            grid += "|";
             grid += "\n";
         }
+        grid += "| - - - - - - - |\n";
+        grid += "|               |\n";
+        grid += "|               |\n";
+        grid += "--             --\n";
         return grid;
     }
 }

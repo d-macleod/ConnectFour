@@ -1,16 +1,21 @@
+import java.util.Scanner;
+
 public class Main {
 
     public static void main(String[] args) {
-	    Grid grid = new Grid();
-        System.out.println(grid);
-        System.out.println(grid.wonGame(Grid.Piece.RED));
-        grid.addPiece(0, Grid.Piece.RED);
-        System.out.println(grid);
-        System.out.println(grid.wonGame(Grid.Piece.RED));
-        grid.addPiece(0, Grid.Piece.RED);
-        grid.addPiece(0, Grid.Piece.RED);
-        grid.addPiece(0, Grid.Piece.RED);
-        System.out.println(grid);
-        System.out.println(grid.wonGame(Grid.Piece.RED));
+        Scanner userIn = new Scanner(System.in);
+        System.out.print("Would you like to play solo or against a friend? (1P/2P): ");
+        String choice = userIn.nextLine();
+
+        if (choice.equals("1P")) {
+            // play against AI
+            Game.play(true);
+        } else if (choice.equals("2P")) {
+            // play against friend
+            Game.play(false);
+        } else {
+            System.out.println("Not a valid selection. Enter 1P for one player, or 2P for two players.");
+        }
+
     }
 }
