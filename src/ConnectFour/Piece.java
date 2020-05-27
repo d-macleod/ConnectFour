@@ -1,3 +1,5 @@
+package ConnectFour;
+
 public enum Piece {
     RED,
     YELLOW,

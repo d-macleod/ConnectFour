@@ -1,4 +1,4 @@
-import java.io.IOException;
+package ConnectFour;
 
 public class Grid {
     Piece[][] board;
