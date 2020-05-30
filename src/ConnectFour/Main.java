@@ -1,11 +1,8 @@
 package ConnectFour;
 
-import java.util.Scanner;
-
 public class Main {
 
     public static void main(String[] args) {
-        Scanner userIn = new Scanner(System.in);
         System.out.println("  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         System.out.println("  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         System.out.println("@@    -----    ------    |\\      |   |\\      |    |------     -----    ---------             /|     @@");
@@ -17,24 +14,8 @@ public class Main {
         System.out.println("  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         System.out.println("  @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         System.out.println();
-//        System.out.print("Would you like to play solo or against a friend? (1P/2P): ");
-//        String choice = userIn.nextLine();
-//        String choice = "1P";
+
         GUI gui = new GUI();
         gui.selection();
-
-
-//        if (choice.equals("1P")) {
-//            // play against AI
-//            gui.play(1, "Random");
-//            Game.play(true);
-//        } else if (choice.equals("2P")) {
-//            // play against friend
-//            gui.play(2, null);
-//            Game.play(false);
-//        } else {
-//            System.out.println("Not a valid selection. Enter 1P for one player, or 2P for two players.");
-//        }
-
     }
 }

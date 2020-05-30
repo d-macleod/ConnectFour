@@ -15,12 +15,29 @@ public class GUI {
     String AItype;
 
 
+    JButton btn0;
+    JButton btn1;
+    JButton btn2;
+    JButton btn3;
+    JButton btn4;
+    JButton btn5;
+    JButton btn6;
+
+
     public GUI() {
         game = new Game();
         AI = new String[]{"Random", "MiniMax"};
         players = new String[]{"1 Player", "2 Players"};
         numPlayers = 1;
         AItype = "Random";
+
+        btn0 = new ColumnButton(game.grid, 0);
+        btn1 = new ColumnButton(game.grid, 1);
+        btn2 = new ColumnButton(game.grid, 2);
+        btn3 = new ColumnButton(game.grid, 3);
+        btn4 = new ColumnButton(game.grid, 4);
+        btn5 = new ColumnButton(game.grid, 5);
+        btn6 = new ColumnButton(game.grid, 6);
     }
 
 
@@ -57,11 +74,11 @@ public class GUI {
 
         playbtn.addActionListener(
                 actionEvent -> {
-                    startFrame.dispose(); //Destroy the JFrame object
+                    startFrame.dispose();
                     if (numPlayers == 2) {
                         AItype = null;
                     }
-                    this.play(numPlayers, AItype);
+                    this.play();
                 }
         );
 
@@ -80,17 +97,11 @@ public class GUI {
         startFrame.setVisible(true);
     }
 
-    public void play(int numPlayers, String AItype) {
+    public void play() {
 
         JFrame frame = new JFrame("Connect Four");
         JPanel panel = new JPanel();
-        JButton btn0 = new JButton();
-        JButton btn1 = new JButton();
-        JButton btn2 = new JButton();
-        JButton btn3 = new JButton();
-        JButton btn4 = new JButton();
-        JButton btn5 = new JButton();
-        JButton btn6 = new JButton();
+
 
         ImageIcon icon = new ImageIcon("images/C4empty.png");
         btn0.addActionListener(new Action(0));
@@ -134,14 +145,23 @@ public class GUI {
             this.column = column;
         }
 
+        public void setColumn(int column) {
+         this.column = column;
+        }
+
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
-            game.add(column);
-            System.out.println(game.grid);
-            if (game.won()) {
-                System.out.println("Winner!");
+            if(!game.play(AItype, column)) {
+                System.out.println("Open new Window");
+            } else {
+                btn0.repaint();
+                btn1.repaint();
+                btn2.repaint();
+                btn3.repaint();
+                btn4.repaint();
+                btn5.repaint();
+                btn6.repaint();
             }
-            game.updateTurn(AItype);
         }
     }
 
