@@ -14,6 +14,7 @@ public class GUI {
     int numPlayers;
     String AItype;
 
+    JFrame frame;
 
     JButton btn0;
     JButton btn1;
@@ -31,6 +32,8 @@ public class GUI {
         numPlayers = 1;
         AItype = "Random";
 
+        frame = new JFrame("Connect Four");
+
         btn0 = new ColumnButton(game.grid, 0);
         btn1 = new ColumnButton(game.grid, 1);
         btn2 = new ColumnButton(game.grid, 2);
@@ -45,14 +48,56 @@ public class GUI {
 
         JFrame startFrame = new JFrame("Selection");
         JPanel startPanel = new JPanel();
-        JComboBox dropDownAI = new JComboBox(AI);
         JComboBox dropDownPlayers = new JComboBox(players);
-        JButton playbtn = new JButton("play!");
+        JButton okbtn = new JButton("Okay");
 
-//        startPanel.setLayout(new GridLayout(1, 4, 0, 0));
         startPanel.setLayout(new FlowLayout());
         JLabel playerLabel = new JLabel("Number of Players");
         playerLabel.setBounds(10, 20, 80, 25);
+
+
+        dropDownPlayers.addItemListener(
+                itemEvent -> {
+                    if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
+                        numPlayers = dropDownPlayers.getSelectedIndex() + 1;
+                    }
+                }
+        );
+
+        okbtn.addActionListener(
+                actionEvent -> {
+                    startFrame.dispose();
+                    if (numPlayers == 2) {
+                        AItype = null;
+                        this.play();
+                    } else {
+                        selection2();
+                    }
+                }
+        );
+
+
+        startPanel.add(playerLabel);
+        startPanel.add(dropDownPlayers);
+        startPanel.add(okbtn);
+
+        startFrame.add(startPanel);
+        startFrame.pack();
+        startFrame.setSize(600, 80);
+        startFrame.setResizable(false);
+        startFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        startFrame.setLocationRelativeTo(null);
+        startFrame.setVisible(true);
+    }
+
+    public void selection2() {
+
+        JFrame startFrame = new JFrame("Selection");
+        JPanel startPanel = new JPanel();
+        JComboBox dropDownAI = new JComboBox(AI);
+        JButton okbtn = new JButton("Okay");
+
+        startPanel.setLayout(new FlowLayout());
         JLabel AILabel = new JLabel("AI type");
         AILabel.setBounds(10, 20, 80, 25);
 
@@ -64,29 +109,18 @@ public class GUI {
                 }
         );
 
-        dropDownPlayers.addItemListener(
-                itemEvent -> {
-                    if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
-                        numPlayers = dropDownPlayers.getSelectedIndex() + 1;
-                    }
-                }
-        );
-
-        playbtn.addActionListener(
+        okbtn.addActionListener(
                 actionEvent -> {
                     startFrame.dispose();
-                    if (numPlayers == 2) {
-                        AItype = null;
-                    }
                     this.play();
                 }
         );
 
-        startPanel.add(playerLabel);
-        startPanel.add(dropDownPlayers);
+
+
         startPanel.add(AILabel);
         startPanel.add(dropDownAI);
-        startPanel.add(playbtn);
+        startPanel.add(okbtn);
 
         startFrame.add(startPanel);
         startFrame.pack();
@@ -99,7 +133,7 @@ public class GUI {
 
     public void play() {
 
-        JFrame frame = new JFrame("Connect Four");
+
         JPanel panel = new JPanel();
 
 
@@ -137,6 +171,54 @@ public class GUI {
         frame.setVisible(true);
     }
 
+    public void endReached(Piece winner) {
+
+        JFrame endFrame = new JFrame("Game Over");
+        JPanel endPanel = new JPanel();
+
+        JButton yesbtn = new JButton("Yes");
+        JButton nobtn = new JButton("No");
+
+        endPanel.setLayout(new FlowLayout());
+        JLabel winnerLabel = new JLabel(winner.toString() + " won the game. Play again?");
+        winnerLabel.setBounds(10, 20, 80, 25);
+
+        yesbtn.addActionListener(
+                actionEvent -> {
+                    game = new Game();
+                    btn0 = new ColumnButton(game.grid, 0);
+                    btn1 = new ColumnButton(game.grid, 1);
+                    btn2 = new ColumnButton(game.grid, 2);
+                    btn3 = new ColumnButton(game.grid, 3);
+                    btn4 = new ColumnButton(game.grid, 4);
+                    btn5 = new ColumnButton(game.grid, 5);
+                    btn6 = new ColumnButton(game.grid, 6);
+                    endFrame.dispose();
+                    frame.dispose();
+                    this.selection();
+                }
+        );
+
+        nobtn.addActionListener(
+                actionEvent -> {
+                    endFrame.dispose();
+                    frame.dispose();
+                }
+        );
+
+        endPanel.add(winnerLabel);
+        endPanel.add(yesbtn);
+        endPanel.add(nobtn);
+
+        endFrame.add(endPanel);
+        endFrame.pack();
+        endFrame.setSize(600, 80);
+        endFrame.setResizable(false);
+        endFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        endFrame.setLocationRelativeTo(null);
+        endFrame.setVisible(true);
+    }
+
     private class Action implements ActionListener {
 
         private int column;
@@ -145,14 +227,10 @@ public class GUI {
             this.column = column;
         }
 
-        public void setColumn(int column) {
-         this.column = column;
-        }
-
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             if(!game.play(AItype, column)) {
-                System.out.println("Open new Window");
+                endReached(game.turn);
             } else {
                 btn0.repaint();
                 btn1.repaint();
