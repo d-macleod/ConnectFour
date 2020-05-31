@@ -24,6 +24,13 @@ public class ColumnButton extends JButton {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        g.setColor(Color.BLUE);
+        g.fillRect(0,0 ,100, 700);
+        g.setColor(Color.WHITE);
+        for (int i = grid.getHeight() - 1; i >= 0; i--) {
+            g.fillOval(coord.get(i)[0], coord.get(i)[1], 89, 89);
+        }
+
         for (int i = grid.getHeight() - 1; i >= 0; i--) {
             if (grid.board[i][column].equals(Piece.EMPTY)) {
                 break;

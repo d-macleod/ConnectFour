@@ -139,21 +139,13 @@ public class GUI {
         JPanel panel = new JPanel();
 
 
-        ImageIcon icon = new ImageIcon("images/C4empty.png");
         btn0.addActionListener(new Action(0));
-        btn0.setIcon(icon);
         btn1.addActionListener(new Action(1));
-        btn1.setIcon(icon);
         btn2.addActionListener(new Action(2));
-        btn2.setIcon(icon);
         btn3.addActionListener(new Action(3));
-        btn3.setIcon(icon);
         btn4.addActionListener(new Action(4));
-        btn4.setIcon(icon);
         btn5.addActionListener(new Action(5));
-        btn5.setIcon(icon);
         btn6.addActionListener(new Action(6));
-        btn6.setIcon(icon);
 
         panel.setLayout(new GridLayout(1, 7));
         panel.add(btn0);
