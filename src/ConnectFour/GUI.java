@@ -49,6 +49,7 @@ public class GUI {
         JFrame startFrame = new JFrame("Selection");
         JPanel startPanel = new JPanel();
         JComboBox dropDownPlayers = new JComboBox(players);
+        dropDownPlayers.setSelectedIndex(0);
         JButton okbtn = new JButton("Okay");
 
         startPanel.setLayout(new FlowLayout());
@@ -95,6 +96,7 @@ public class GUI {
         JFrame startFrame = new JFrame("Selection");
         JPanel startPanel = new JPanel();
         JComboBox dropDownAI = new JComboBox(AI);
+        dropDownAI.setSelectedIndex(0);
         JButton okbtn = new JButton("Okay");
 
         startPanel.setLayout(new FlowLayout());
@@ -186,6 +188,8 @@ public class GUI {
         yesbtn.addActionListener(
                 actionEvent -> {
                     game = new Game();
+                    numPlayers = 1;
+                    AItype = "Random";
                     btn0 = new ColumnButton(game.grid, 0);
                     btn1 = new ColumnButton(game.grid, 1);
                     btn2 = new ColumnButton(game.grid, 2);
@@ -195,6 +199,7 @@ public class GUI {
                     btn6 = new ColumnButton(game.grid, 6);
                     endFrame.dispose();
                     frame.dispose();
+                    frame = new JFrame("Connect Four");
                     this.selection();
                 }
         );
