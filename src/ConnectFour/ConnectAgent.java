@@ -28,7 +28,11 @@ public class ConnectAgent {
         Instant time = Instant.now();
         long seed = time.getEpochSecond();
         Random random = new Random(seed);
-        return random.nextInt(7);
+        int randInt = random.nextInt(7);
+        while (!grid.legalMoves().contains(randInt)) {
+            randInt = random.nextInt(7);
+        }
+        return randInt;
     }
 
     public int MiniMax() {
@@ -188,7 +192,7 @@ public class ConnectAgent {
             ArrayList<Integer> bestMVs = new ArrayList<>();
             int bestScore = Integer.MIN_VALUE;
 
-            for (int mv : moves.keySet()) {
+            for (int mv : grid.legalMoves()) {
                 Grid newGrid = generateSuccessor(grid, Piece.YELLOW, mv);
                 moves.put(mv, minVal(newGrid, currDepth));
                 if (moves.get(mv) > bestScore) {
@@ -214,7 +218,7 @@ public class ConnectAgent {
             } else {
                 HashMap<Integer, Integer> humanMoves = new HashMap<>();
                 int bestScore = Integer.MAX_VALUE;
-                for (int mv : moves.keySet()) {
+                for (int mv : grid.legalMoves()) {
                     Grid newGrid = generateSuccessor(grid, Piece.RED, mv);
                     humanMoves.put(mv, maxVal(newGrid, currDepth + 1));
                     if (humanMoves.get(mv) < bestScore) {
@@ -233,7 +237,7 @@ public class ConnectAgent {
             } else {
                 HashMap<Integer, Integer> computerMoves = new HashMap<>();
                 int bestScore = Integer.MIN_VALUE;
-                for (int mv : moves.keySet()) {
+                for (int mv : grid.legalMoves()) {
                     Grid newGrid = generateSuccessor(grid, Piece.YELLOW, mv);
                     computerMoves.put(mv, minVal(newGrid, currDepth + 1));
                     if (computerMoves.get(mv) > bestScore) {

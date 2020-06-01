@@ -1,5 +1,7 @@
 package ConnectFour;
 
+import java.util.ArrayList;
+
 public class Grid {
     Piece[][] board;
 
@@ -50,6 +52,16 @@ public class Grid {
             throw new IndexOutOfBoundsException("Select a proper column index.");
         }
         return board[0][column].equals(Piece.EMPTY);
+    }
+
+    public ArrayList<Integer> legalMoves () {
+        ArrayList<Integer> moves = new ArrayList<>();
+        for (int i = 0; i < getWidth(); i++) {
+            if (isLegal(i)) {
+                moves.add(i);
+            }
+        }
+        return moves;
     }
 
     public boolean wonGame (Piece turn) {
