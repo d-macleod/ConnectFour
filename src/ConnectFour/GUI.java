@@ -227,6 +227,13 @@ public class GUI {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
             if(!game.play(AItype, column)) {
+                btn0.repaint();
+                btn1.repaint();
+                btn2.repaint();
+                btn3.repaint();
+                btn4.repaint();
+                btn5.repaint();
+                btn6.repaint();
                 endReached(game.turn);
             } else {
                 btn0.repaint();

@@ -9,7 +9,7 @@ public class Game {
     public Game () {
         turn = Piece.RED;
         grid = new Grid();
-        agent = new ConnectAgent();
+        agent = new ConnectAgent(grid);
     }
 
     public void add(int column) {
@@ -31,7 +31,7 @@ public class Game {
                 return false;
             } else {
                 updateTurn();
-                add(agent.choice());
+                add(agent.choice(AI));
                 if (grid.wonGame(turn)) {
                     return false;
                 } else {
