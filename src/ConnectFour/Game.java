@@ -25,14 +25,21 @@ public class Game {
     }
 
     public boolean play(String AI, int column) {
+        if(!grid.isLegal(column)) {
+            return true;
+        }
         if (AI != null) {
             add(column);
             if (won()) {
+                return false;
+            } else if (grid.isStaleMate()) {
                 return false;
             } else {
                 updateTurn();
                 add(agent.choice(AI));
                 if (grid.wonGame(turn)) {
+                    return false;
+                } else if (grid.isStaleMate()) {
                     return false;
                 } else {
                     updateTurn();
@@ -42,10 +49,11 @@ public class Game {
             add(column);
             if (won()) {
                 return false;
+            } else if (grid.isStaleMate()) {
+                return false;
             } else {
                 updateTurn();
             }
-
         }
         return true;
     }

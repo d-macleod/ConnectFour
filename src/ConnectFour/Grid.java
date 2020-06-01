@@ -24,17 +24,32 @@ public class Grid {
      * Adds piece to the grid and returns if it was successful
      * @return success or not
      */
-    public boolean addPiece (int column, Piece piece) {
+    public void addPiece (int column, Piece piece) {
         if (column >= getWidth() || column < 0) {
             throw new IndexOutOfBoundsException("Select a proper column index.");
         }
         for (int i = getHeight() - 1; i >= 0; i--) {
             if (board[i][column].equals(Piece.EMPTY)) {
                 board[i][column] = piece;
-                return true;
+                break;
             }
         }
-        return false;
+    }
+
+    public boolean isStaleMate () {
+        for (int i = 0; i < getWidth(); i++) {
+            if (board[0][i].equals(Piece.EMPTY)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean isLegal (int column) {
+        if (column >= getWidth() || column < 0) {
+            throw new IndexOutOfBoundsException("Select a proper column index.");
+        }
+        return board[0][column].equals(Piece.EMPTY);
     }
 
     public boolean wonGame (Piece turn) {

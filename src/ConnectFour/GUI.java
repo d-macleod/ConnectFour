@@ -176,6 +176,8 @@ public class GUI {
         endPanel.setLayout(new FlowLayout());
         JLabel winnerLabel = new JLabel(winner.toString() + " won the game. Play again?");
         winnerLabel.setBounds(10, 20, 80, 25);
+        JLabel staleLabel = new JLabel("Stalemate. Play again?");
+        staleLabel.setBounds(10, 20, 80, 25);
 
         yesbtn.addActionListener(
                 actionEvent -> {
@@ -203,7 +205,11 @@ public class GUI {
                 }
         );
 
-        endPanel.add(winnerLabel);
+        if (game.grid.isStaleMate()) {
+            endPanel.add(staleLabel);
+        } else {
+            endPanel.add(winnerLabel);
+        }
         endPanel.add(yesbtn);
         endPanel.add(nobtn);
 
