@@ -4,9 +4,13 @@ import java.util.ArrayList;
 
 public class Grid {
     Piece[][] board;
+    int[][] con4;
+    boolean won;
 
     public Grid () {
         board = new Piece[6][7];
+        con4 = new int[5][2];
+        won = false;
         for (int i = 0; i < getHeight(); i++) {
             for (int j = 0; j < getWidth(); j++) {
                 board[i][j] = Piece.EMPTY;
@@ -70,6 +74,21 @@ public class Grid {
         for (int j = 0; j < getWidth() - 3; j++) {
             for (int i = 0; i < getHeight(); i++){
                 if (this.board[i][j] == turn && this.board[i][j+1] == turn && this.board[i][j+2] == turn && this.board[i][j+3] == turn){
+                    con4[0][0] = i;
+                    con4[0][1] = j;
+
+                    con4[1][0] = i;
+                    con4[1][1] = j+1;
+
+                    con4[2][0] = i;
+                    con4[2][1] = j+2;
+
+                    con4[3][0] = i;
+                    con4[3][1] = j+3;
+
+                    con4[4][0] = 0;
+
+                    won = true;
                     return true;
                 }
             }
@@ -78,22 +97,69 @@ public class Grid {
         for (int i = 0; i < this.getHeight() - 3; i++){
             for (int j = 0; j < getWidth(); j++){
                 if (this.board[i][j] == turn && this.board[i+1][j] == turn && this.board[i+2][j] == turn && this.board[i+3][j] == turn){
+                    con4[0][0] = i;
+                    con4[0][1] = j;
+
+                    con4[1][0] = i+1;
+                    con4[1][1] = j;
+
+                    con4[2][0] = i+2;
+                    con4[2][1] = j;
+
+                    con4[3][0] = i+3;
+                    con4[3][1] = j;
+
+                    con4[4][0] = 1;
+
+                    won = true;
+                    return true;
+                }
+            }
+        }
+        // descendingDiagonalCheck
+        for (int j = 0; j < getWidth()-3; j++){
+            for (int i = 0; i < getHeight()-3; i++){
+                if (this.board[i][j] == turn && this.board[i+1][j+1] == turn && this.board[i+2][j+2] == turn && this.board[i+3][j+3] == turn) {
+                    con4[0][0] = i;
+                    con4[0][1] = j;
+
+                    con4[1][0] = i+1;
+                    con4[1][1] = j+1;
+
+                    con4[2][0] = i+2;
+                    con4[2][1] = j+2;
+
+                    con4[3][0] = i+3;
+                    con4[3][1] = j+3;
+
+                    con4[4][0] = 2;
+
+                    won = true;
                     return true;
                 }
             }
         }
         // ascendingDiagonalCheck
         for (int j = 0; j < getWidth()-3; j++){
-            for (int i = 0; i < getHeight()-3; i++){
-                if (this.board[i][j] == turn && this.board[i+1][j+1] == turn && this.board[i+2][j+2] == turn && this.board[i+3][j+3] == turn)
-                    return true;
-            }
-        }
-        // descendingDiagonalCheck
-        for (int j = 0; j < getWidth()-3; j++){
             for (int i = getHeight() - 1; i > 2; i--){
-                if (this.board[i][j] == turn && this.board[i-1][j+1] == turn && this.board[i-2][j+2] == turn && this.board[i-3][j+3] == turn)
+                if (this.board[i][j] == turn && this.board[i-1][j+1] == turn && this.board[i-2][j+2] == turn && this.board[i-3][j+3] == turn) {
+                    con4[0][0] = i;
+                    con4[0][1] = j;
+
+                    con4[1][0] = i-1;
+                    con4[1][1] = j+1;
+
+                    con4[2][0] = i-2;
+                    con4[2][1] = j+2;
+
+                    con4[3][0] = i-3;
+                    con4[3][1] = j+3;
+
+                    con4[4][0] = 3;
+
+                    won = true;
                     return true;
+                }
             }
         }
         return false;
