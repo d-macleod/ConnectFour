@@ -49,7 +49,7 @@ public class GUI {
         JFrame startFrame = new JFrame("Selection");
         JPanel startPanel = new JPanel();
         JComboBox dropDownPlayers = new JComboBox(players);
-        dropDownPlayers.setSelectedIndex(0);
+        dropDownPlayers.setSelectedIndex(numPlayers == 1 ? 0 : 1);
         JButton okbtn = new JButton("Okay");
 
         startPanel.setLayout(new FlowLayout());
@@ -96,7 +96,7 @@ public class GUI {
         JFrame startFrame = new JFrame("Selection");
         JPanel startPanel = new JPanel();
         JComboBox dropDownAI = new JComboBox(AI);
-        dropDownAI.setSelectedIndex(0);
+        dropDownAI.setSelectedIndex(AItype.equals("Random") ? 0 : 1);
         JButton okbtn = new JButton("Okay");
 
         startPanel.setLayout(new FlowLayout());
@@ -140,12 +140,32 @@ public class GUI {
 
 
         btn0.addActionListener(new Action(0));
+        btn0.addMouseListener(new MouseEffect(0));
+        btn0.setBorderPainted(false);
+
         btn1.addActionListener(new Action(1));
+        btn1.addMouseListener(new MouseEffect(1));
+        btn1.setBorderPainted(false);
+
         btn2.addActionListener(new Action(2));
+        btn2.addMouseListener(new MouseEffect(2));
+        btn2.setBorderPainted(false);
+
         btn3.addActionListener(new Action(3));
+        btn3.addMouseListener(new MouseEffect(3));
+        btn3.setBorderPainted(false);
+
         btn4.addActionListener(new Action(4));
+        btn4.addMouseListener(new MouseEffect(4));
+        btn4.setBorderPainted(false);
+
         btn5.addActionListener(new Action(5));
+        btn5.addMouseListener(new MouseEffect(5));
+        btn5.setBorderPainted(false);
+
         btn6.addActionListener(new Action(6));
+        btn6.addMouseListener(new MouseEffect(6));
+        btn6.setBorderPainted(false);
 
         panel.setLayout(new GridLayout(1, 7));
         panel.add(btn0);
@@ -182,8 +202,9 @@ public class GUI {
         yesbtn.addActionListener(
                 actionEvent -> {
                     game = new Game();
-                    numPlayers = 1;
-                    AItype = "Random";
+                    if (numPlayers == 2) {
+                        AItype = "Random";
+                    }
                     btn0 = new ColumnButton(game.grid, 0);
                     btn1 = new ColumnButton(game.grid, 1);
                     btn2 = new ColumnButton(game.grid, 2);
@@ -234,12 +255,19 @@ public class GUI {
         public void actionPerformed(ActionEvent actionEvent) {
             if(!game.play(AItype, column)) {
                 btn0.repaint();
+                btn0.removeActionListener(btn0.getActionListeners()[0]);
                 btn1.repaint();
+                btn1.removeActionListener(btn1.getActionListeners()[0]);
                 btn2.repaint();
+                btn2.removeActionListener(btn2.getActionListeners()[0]);
                 btn3.repaint();
+                btn3.removeActionListener(btn3.getActionListeners()[0]);
                 btn4.repaint();
+                btn4.removeActionListener(btn4.getActionListeners()[0]);
                 btn5.repaint();
+                btn5.removeActionListener(btn5.getActionListeners()[0]);
                 btn6.repaint();
+                btn6.removeActionListener(btn6.getActionListeners()[0]);
                 endReached(game.turn);
             } else {
                 btn0.repaint();
@@ -249,6 +277,80 @@ public class GUI {
                 btn4.repaint();
                 btn5.repaint();
                 btn6.repaint();
+            }
+        }
+    }
+
+    private class MouseEffect implements MouseListener {
+
+        private int column;
+
+        public MouseEffect(int column) {
+            this.column = column;
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent mouseEvent) {}
+
+        @Override
+        public void mousePressed(MouseEvent mouseEvent) {}
+
+        @Override
+        public void mouseReleased(MouseEvent mouseEvent) {}
+
+        @Override
+        public void mouseEntered(MouseEvent mouseEvent) {
+
+            switch (column) {
+                case 0:
+                    btn0.setBorderPainted(true);
+                    break;
+                case 1:
+                    btn1.setBorderPainted(true);
+                    break;
+                case 2:
+                    btn2.setBorderPainted(true);
+                    break;
+                case 3:
+                    btn3.setBorderPainted(true);
+                    break;
+                case 4:
+                    btn4.setBorderPainted(true);
+                    break;
+                case 5:
+                    btn5.setBorderPainted(true);
+                    break;
+                case 6:
+                    btn6.setBorderPainted(true);
+                    break;
+            }
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent mouseEvent) {
+            switch (column) {
+                case 0:
+                    btn0.setBorderPainted(false);
+                    break;
+                case 1:
+                    btn1.setBorderPainted(false);
+                    break;
+                case 2:
+                    btn2.setBorderPainted(false);
+                    break;
+                case 3:
+                    btn3.setBorderPainted(false);
+                    break;
+                case 4:
+                    btn4.setBorderPainted(false);
+                    break;
+                case 5:
+                    btn5.setBorderPainted(false);
+                    break;
+                case 6:
+                    btn6.setBorderPainted(false);
+                    break;
             }
         }
     }
