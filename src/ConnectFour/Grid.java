@@ -2,6 +2,9 @@ package ConnectFour;
 
 import java.util.ArrayList;
 
+/** Class that represents the game grid.
+ * @author Duncan Mac Leod
+ */
 public class Grid {
     Piece[][] board;
     int[][] con4;
@@ -27,8 +30,7 @@ public class Grid {
     }
 
     /**
-     * Adds piece to the grid and returns if it was successful
-     * @return success or not
+     * Adds PIECE to the grid at the desired COLUMN.
      */
     public void addPiece (int column, Piece piece) {
         if (column >= getWidth() || column < 0) {

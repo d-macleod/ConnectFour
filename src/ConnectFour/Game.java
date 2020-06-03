@@ -1,5 +1,8 @@
 package ConnectFour;
 
+/** Class for managing how the game is played
+ * @author Duncan Mac Leod
+ */
 public class Game {
 
     Piece turn;

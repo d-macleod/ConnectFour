@@ -1,10 +1,12 @@
 package ConnectFour;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/** Graphical User Interface for the game.
+ * @author Duncan Mac Leod
+ */
 public class GUI {
     Game game;
 

@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 
+/** Custom JButton for visually representing columns in the grid.
+ * @author Duncan Mac Leod
+ */
 public class ColumnButton extends JButton {
 
     Grid grid;

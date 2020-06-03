@@ -5,6 +5,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+/** Class the implements the AI that players can play against.
+ *
+ * Difficulties:
+ * Easy - AI chooses a random column to place piece.
+ * Medium - AI uses Minimax algorithm to predict best possible move.
+ * Hard - AI uses Minimax with alpha-beta pruning to reach more depth and uses a slightly
+ *        updated evaluation function.
+ *
+ * @author Duncan Mac Leod
+ */
 public class ConnectAgent {
 
     Grid grid;
@@ -45,7 +55,6 @@ public class ConnectAgent {
     public int alphabeta(Grid grid, int depth, int alpha, int beta, boolean maximizingPlayer) {
         MiniMaxAgent agent = new MiniMaxAgent(depth, grid);
         return agent.alphabeta(grid, depth, alpha, beta, maximizingPlayer).mv;
-//        return 0;
     }
 
 

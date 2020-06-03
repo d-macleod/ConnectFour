@@ -1,5 +1,8 @@
 package ConnectFour;
 
+/** Represents a piece on the board.
+ * @author Duncan Mac Leod
+ */
 public enum Piece {
     RED,
     YELLOW,
