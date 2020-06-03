@@ -27,10 +27,10 @@ public class GUI {
 
     public GUI() {
         game = new Game();
-        AI = new String[]{"Random", "MiniMax"};
+        AI = new String[]{"Easy", "Medium", "Hard"};
         players = new String[]{"1 Player", "2 Players"};
         numPlayers = 1;
-        AItype = "Random";
+        AItype = "Easy";
 
         frame = new JFrame("Connect Four");
 
@@ -96,7 +96,19 @@ public class GUI {
         JFrame startFrame = new JFrame("Selection");
         JPanel startPanel = new JPanel();
         JComboBox dropDownAI = new JComboBox(AI);
-        dropDownAI.setSelectedIndex(AItype.equals("Random") ? 0 : 1);
+        int index = 0;
+        switch (AItype) {
+            case "Easy":
+                index = 0;
+                break;
+            case "Medium":
+                index = 1;
+                break;
+            case "Hard":
+                index = 2;
+                break;
+        }
+        dropDownAI.setSelectedIndex(index);
         JButton okbtn = new JButton("Okay");
 
         startPanel.setLayout(new FlowLayout());
@@ -203,7 +215,7 @@ public class GUI {
                 actionEvent -> {
                     game = new Game();
                     if (numPlayers == 2) {
-                        AItype = "Random";
+                        AItype = "Easy";
                     }
                     btn0 = new ColumnButton(game.grid, 0);
                     btn1 = new ColumnButton(game.grid, 1);

@@ -15,10 +15,12 @@ public class ConnectAgent {
 
     public int choice(String AI) {
         switch (AI) {
-            case "Random":
+            case "Easy":
                 return random();
-            case "MiniMax":
-                return MiniMax();
+            case "Medium":
+                return MiniMax(4);
+            case "Hard":
+                return alphabeta(grid, 7, Integer.MIN_VALUE, Integer.MAX_VALUE, true);
             default:
                 return random();
         }
@@ -35,9 +37,15 @@ public class ConnectAgent {
         return randInt;
     }
 
-    public int MiniMax() {
-        MiniMaxAgent agent = new MiniMaxAgent(4, grid);
+    public int MiniMax(int depth) {
+        MiniMaxAgent agent = new MiniMaxAgent(depth, grid);
         return agent.getAction();
+    }
+
+    public int alphabeta(Grid grid, int depth, int alpha, int beta, boolean maximizingPlayer) {
+        MiniMaxAgent agent = new MiniMaxAgent(depth, grid);
+        return agent.alphabeta(grid, depth, alpha, beta, maximizingPlayer).mv;
+//        return 0;
     }
 
 
@@ -187,6 +195,174 @@ public class ConnectAgent {
             return score;
         }
 
+        public int eval2(Grid grid) {
+
+            int score = 0;
+            Piece computer = Piece.YELLOW;
+            Piece human = Piece.RED;
+
+            int[][] evaluationTable = new int[][]{{3, 4, 5, 7, 5, 4, 3},
+                                                  {4, 6, 8, 10, 8, 6, 4},
+                                                  {5, 8, 11, 13, 11, 8, 5},
+                                                  {5, 8, 11, 13, 11, 8, 5},
+                                                  {4, 6, 8, 10, 8, 6, 4},
+                                                  {3, 4, 5, 7, 5, 4, 3}};
+
+            for (int i = 0; i < grid.getHeight(); i++) {
+                for (int j = 0; j < grid.getWidth(); j++) {
+                    if (grid.board[i][j] == computer) {
+                        score += evaluationTable[i][j];
+                    }
+                    else if (grid.board[i][j] == human) {
+                        score -= evaluationTable[i][j];
+                    }
+                }
+            }
+
+            //count number of 3 in a rows for yellow (+500 for each)
+            //count number of 3 in a rows for red (-500 for each)
+
+            // horizontalCheck
+            for (int j = 0; j < grid.getWidth() - 3; j++) {
+                for (int i = 0; i < grid.getHeight(); i++){
+                    if (grid.board[i][j] == Piece.EMPTY && grid.board[i][j+1] == computer && grid.board[i][j+2] == computer && grid.board[i][j+3] == computer){
+                        score += 500;
+                    } else if (grid.board[i][j] == computer && grid.board[i][j+1] == Piece.EMPTY && grid.board[i][j+2] == computer && grid.board[i][j+3] == computer){
+                        score += 500;
+                    } else if (grid.board[i][j] == computer && grid.board[i][j+1] == computer && grid.board[i][j+2] == Piece.EMPTY && grid.board[i][j+3] == computer){
+                        score += 500;
+                    } else if (grid.board[i][j] == computer && grid.board[i][j+1] == computer && grid.board[i][j+2] == computer && grid.board[i][j+3] == Piece.EMPTY){
+                        score += 500;
+                    } else if (grid.board[i][j] == Piece.EMPTY && grid.board[i][j+1] == human && grid.board[i][j+2] == human && grid.board[i][j+3] == human){
+                        score -= 500;
+                    } else if (grid.board[i][j] == human && grid.board[i][j+1] == Piece.EMPTY && grid.board[i][j+2] == human && grid.board[i][j+3] == human){
+                        score -= 500;
+                    } else if (grid.board[i][j] == human && grid.board[i][j+1] == human && grid.board[i][j+2] == Piece.EMPTY && grid.board[i][j+3] == human){
+                        score -= 500;
+                    } else if (grid.board[i][j] == human && grid.board[i][j+1] == human && grid.board[i][j+2] == human && grid.board[i][j+3] == Piece.EMPTY){
+                        score -= 500;
+                    }
+                }
+            }
+            // verticalCheck
+            for (int i = 0; i < grid.getHeight() - 3; i++){
+                for (int j = 0; j < grid.getWidth(); j++){
+                    if (grid.board[i][j] == Piece.EMPTY && grid.board[i+1][j] == computer && grid.board[i+2][j] == computer && grid.board[i+3][j] == computer){
+                        score += 500;
+                    } else if (grid.board[i][j] == computer && grid.board[i+1][j] == Piece.EMPTY && grid.board[i+2][j] == computer && grid.board[i+3][j] == computer){
+                        score += 500;
+                    } else if (grid.board[i][j] == computer && grid.board[i+1][j] == computer && grid.board[i+2][j] == Piece.EMPTY && grid.board[i+3][j] == computer){
+                        score += 500;
+                    } else if (grid.board[i][j] == computer && grid.board[i+1][j] == computer && grid.board[i+2][j] == computer && grid.board[i+3][j] == Piece.EMPTY){
+                        score += 500;
+                    } else if (grid.board[i][j] == Piece.EMPTY && grid.board[i+1][j] == human && grid.board[i+2][j] == human && grid.board[i+3][j] == human){
+                        score -= 500;
+                    } else if (grid.board[i][j] == human && grid.board[i+1][j] == Piece.EMPTY && grid.board[i+2][j] == human && grid.board[i+3][j] == human){
+                        score -= 500;
+                    } else if (grid.board[i][j] == human && grid.board[i+1][j] == human && grid.board[i+2][j] == Piece.EMPTY && grid.board[i+3][j] == human){
+                        score -= 500;
+                    } else if (grid.board[i][j] == human && grid.board[i+1][j] == human && grid.board[i+2][j] == human && grid.board[i+3][j] == Piece.EMPTY){
+                        score -= 500;
+                    }
+                }
+            }
+            // ascendingDiagonalCheck
+            for (int j = 0; j < grid.getWidth()-3; j++){
+                for (int i = 0; i < grid.getHeight()-3; i++){
+                    if (grid.board[i][j] == Piece.EMPTY && grid.board[i+1][j+1] == computer && grid.board[i+2][j+2] == computer && grid.board[i+3][j+3] == computer) {
+                        score += 500;
+                    } else if (grid.board[i][j] == computer && grid.board[i+1][j+1] == Piece.EMPTY && grid.board[i+2][j+2] == computer && grid.board[i+3][j+3] == computer) {
+                        score += 500;
+                    } else if (grid.board[i][j] == computer && grid.board[i+1][j+1] == computer && grid.board[i+2][j+2] == Piece.EMPTY && grid.board[i+3][j+3] == computer) {
+                        score += 500;
+                    } else if (grid.board[i][j] == computer && grid.board[i+1][j+1] == computer && grid.board[i+2][j+2] == computer && grid.board[i+3][j+3] == Piece.EMPTY) {
+                        score += 500;
+                    } else if (grid.board[i][j] == Piece.EMPTY && grid.board[i+1][j+1] == human && grid.board[i+2][j+2] == human && grid.board[i+3][j+3] == human) {
+                        score -= 500;
+                    } else if (grid.board[i][j] == human && grid.board[i+1][j+1] == Piece.EMPTY && grid.board[i+2][j+2] == human && grid.board[i+3][j+3] == human) {
+                        score -= 500;
+                    } else if (grid.board[i][j] == human && grid.board[i+1][j+1] == human && grid.board[i+2][j+2] == Piece.EMPTY && grid.board[i+3][j+3] == human) {
+                        score -= 500;
+                    } else if (grid.board[i][j] == human && grid.board[i+1][j+1] == human && grid.board[i+2][j+2] == human && grid.board[i+3][j+3] == Piece.EMPTY) {
+                        score -= 500;
+                    }
+                }
+            }
+            // descendingDiagonalCheck
+            for (int j = 0; j < grid.getWidth()-3; j++){
+                for (int i = grid.getHeight() - 1; i > 2; i--){
+                    if (grid.board[i][j] == Piece.EMPTY && grid.board[i-1][j+1] == computer && grid.board[i-2][j+2] == computer && grid.board[i-3][j+3] == computer) {
+                        score += 500;
+                    } else if (grid.board[i][j] == computer && grid.board[i-1][j+1] == Piece.EMPTY && grid.board[i-2][j+2] == computer && grid.board[i-3][j+3] == computer) {
+                        score += 500;
+                    } else if (grid.board[i][j] == computer && grid.board[i-1][j+1] == computer && grid.board[i-2][j+2] == Piece.EMPTY && grid.board[i-3][j+3] == computer) {
+                        score += 500;
+                    } else if (grid.board[i][j] == computer && grid.board[i-1][j+1] == computer && grid.board[i-2][j+2] == computer && grid.board[i-3][j+3] == Piece.EMPTY) {
+                        score += 500;
+                    } else if (grid.board[i][j] == Piece.EMPTY && grid.board[i-1][j+1] == human && grid.board[i-2][j+2] == human && grid.board[i-3][j+3] == human) {
+                        score -= 500;
+                    } else if (grid.board[i][j] == human && grid.board[i-1][j+1] == Piece.EMPTY && grid.board[i-2][j+2] == human && grid.board[i-3][j+3] == human) {
+                        score -= 500;
+                    } else if (grid.board[i][j] == human && grid.board[i-1][j+1] == human && grid.board[i-2][j+2] == Piece.EMPTY && grid.board[i-3][j+3] == human) {
+                        score -= 500;
+                    } else if (grid.board[i][j] == human && grid.board[i-1][j+1] == human && grid.board[i-2][j+2] == human && grid.board[i-3][j+3] == Piece.EMPTY) {
+                        score -= 500;
+                    }
+                }
+            }
+
+            return score;
+        }
+
+        public Pair max (Pair a, Pair b) {
+            if (a.value >= b.value) {
+                return a;
+            } else {
+                return b;
+            }
+        }
+
+        public Pair min (Pair a, Pair b) {
+            if (a.value < b.value) {
+                return a;
+            } else {
+                return b;
+            }
+        }
+
+        public Pair alphabeta(Grid grid, int depth, int alpha, int beta, boolean maximizingPlayer) {
+            if (depth == 0) {
+                return new Pair(eval2(grid), 0);
+            } else if (evalEnding(grid) != 0) {
+                return new Pair(evalEnding(grid), 0);
+            } else if (maximizingPlayer) {
+                Pair bestMV = new Pair(Integer.MIN_VALUE, 0);
+                for (int mv : grid.legalMoves()) {
+                    Grid newGrid = generateSuccessor(grid, Piece.YELLOW, mv);
+                    Pair curMV = new Pair(alphabeta(newGrid, depth - 1, alpha, beta, false).value, mv);
+                    bestMV = max(bestMV, curMV);
+                    alpha = Math.max(alpha, bestMV.value);
+                    if (alpha >= beta) {
+                        break;
+                    }
+                }
+                return bestMV;
+            } else {
+                Pair bestMV = new Pair(Integer.MAX_VALUE, 0);
+                for (int mv : grid.legalMoves()) {
+                    Grid newGrid = generateSuccessor(grid, Piece.RED, mv);
+                    Pair curMV = new Pair(alphabeta(newGrid, depth - 1, alpha, beta, true).value, mv);
+                    bestMV = min(bestMV, curMV);
+                    beta = Math.min(beta, bestMV.value);
+                    if (beta <= alpha) {
+                        break;
+                    }
+                }
+                return bestMV;
+            }
+        }
+
+
         public int getAction() {
             int currDepth = 1;
             ArrayList<Integer> bestMVs = new ArrayList<>();
@@ -245,6 +421,16 @@ public class ConnectAgent {
                     }
                 }
                 return bestScore;
+            }
+        }
+
+        private class Pair {
+            int value;
+            int mv;
+
+            public Pair(int value, int mv) {
+                this.value = value;
+                this.mv = mv;
             }
         }
 
