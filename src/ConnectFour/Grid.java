@@ -21,10 +21,16 @@ public class Grid {
         }
     }
 
+    /**
+     * @return height of the board
+     */
     public int getHeight() {
         return board.length;
     }
 
+    /**
+     * @return width of the board
+     */
     public int getWidth() {
         return board[0].length;
     }
